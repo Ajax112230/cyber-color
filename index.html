@@ -52,7 +52,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 .sec-btn:hover{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2)}
 
 /* ─── 结果页 ─── */
-#page-result{background:url('assets/11.jpg') center/cover fixed no-repeat;border-radius:0}
+#result-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:0;pointer-events:none}
 .result-card{border-radius:24px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,0.5);margin-bottom:24px}
 .result-color{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;transition:background 0.6s}
 .result-color .rc-name{font-size:64px;font-weight:700;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.3);letter-spacing:0.1em}
@@ -94,6 +94,8 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 </style>
 </head>
 <body>
+
+<img id="result-bg" src="assets/11.jpg" alt="">
 
 <!-- 顶部标签 -->
 <div class="tabs">
@@ -335,6 +337,7 @@ function switchPage(p){
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
+  document.getElementById('result-bg').style.display=p==='result'?'block':'none';
   if(p==='quiz')renderQ();
 }
 
