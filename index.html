@@ -6,24 +6,26 @@
 <title>赛博占色 · 你的本命色</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei',sans-serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:80px 16px 40px}
+body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei',sans-serif;min-height:100dvh}
 
 /* ─── 顶部标签 ─── */
-.tabs{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:4px;padding:3px;background:rgba(20,20,20,0.8);backdrop-filter:blur(12px);border-radius:50px;border:1px solid rgba(255,255,255,0.06)}
-.tab{padding:8px 20px;border-radius:50px;font-size:13px;cursor:pointer;color:rgba(255,255,255,0.35);transition:all 0.3s;border:none;background:transparent;font-family:inherit}
-.tab.active{background:rgba(201,169,110,0.15);color:#c9a96e}
-.tab:hover{color:rgba(255,255,255,0.7)}
+.tabs{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:4px;padding:3px;background:rgba(20,20,20,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:50px;border:1px solid rgba(255,255,255,0.05)}
+.tab{padding:8px 22px;border-radius:50px;font-size:13px;cursor:pointer;color:rgba(255,255,255,0.3);transition:all 0.3s;border:none;background:transparent;font-family:inherit;letter-spacing:0.04em}
+.tab.active{background:rgba(201,169,110,0.1);color:#c9a96e}
+.tab:hover{color:rgba(255,255,255,0.6)}
 
 /* ─── 页面容器 ─── */
-.page{display:none;width:100%;max-width:500px;text-align:center}
+.page{display:none;width:100%;max-width:500px;margin:0 auto;padding:80px 20px 40px}
 .page.active{display:block;animation:fadeIn 0.5s ease-out both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* ─── 首页 ─── */
-.title{font-size:52px;letter-spacing:0.12em;color:#c9a96e;margin-bottom:6px;font-weight:400}
-.sub{font-size:14px;color:rgba(255,255,255,0.3);letter-spacing:0.15em;margin-bottom:40px}
-.start-btn{padding:16px 48px;border-radius:50px;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);color:#c9a96e;font-size:18px;font-family:inherit;cursor:pointer;letter-spacing:0.08em;transition:all 0.3s}
-.start-btn:hover{background:rgba(201,169,110,0.22);border-color:rgba(201,169,110,0.5)}
+#page-home{display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:0 20px;margin:0 auto;max-width:500px;text-align:center}
+#page-home.active{display:flex}
+.title{font-size:56px;letter-spacing:0.15em;color:#c9a96e;font-weight:300;margin-bottom:14px;line-height:1.2}
+.title-sub{font-size:13px;color:rgba(255,255,255,0.2);letter-spacing:0.2em;margin-bottom:56px;font-weight:400}
+.start-btn{padding:16px 52px;border-radius:50px;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.25);color:#c9a96e;font-size:16px;font-family:inherit;cursor:pointer;letter-spacing:0.1em;transition:all 0.4s;position:relative}
+.start-btn:hover{background:rgba(201,169,110,0.15);border-color:rgba(201,169,110,0.4);box-shadow:0 0 40px rgba(201,169,110,0.06)}
 
 /* ─── 输入区 ─── */
 .ci-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;max-width:360px;margin-left:auto;margin-right:auto}
@@ -101,7 +103,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 <!-- 首页 -->
 <div class="page active" id="page-home">
   <h1 class="title">赛 博 占 色</h1>
-  <p class="sub">五道题 · 找到你的本命色</p>
+  <p class="title-sub">五道题 · 找到你的本命色</p>
   <button class="start-btn" onclick="switchPage('quiz')">✨ 开始占色</button>
 </div>
 
