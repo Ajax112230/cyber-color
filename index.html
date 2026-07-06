@@ -6,9 +6,8 @@
 <title>赛博占色 · 你的本命色</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei',sans-serif;min-height:100dvh;transition:background 0.5s;background-size:cover}
-body.show-bg{background:url('assets/11.jpg') center/cover fixed no-repeat;background-size:cover}
+html,body{height:100%;margin:0}
+body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei',sans-serif;min-height:100dvh}
 
 /* ─── 顶部标签 ─── */
 .tabs{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:4px;padding:3px;background:rgba(20,20,20,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:50px;border:1px solid rgba(255,255,255,0.05)}
@@ -347,7 +346,8 @@ function switchPage(p){
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
-  document.body.classList.toggle('show-bg', p==='result');
+  if(p==='result'){document.body.style.background='url(assets/11.jpg) center/cover fixed no-repeat'}
+  else{document.body.style.background=''}
   if(p==='quiz')renderQ();
 }
 
