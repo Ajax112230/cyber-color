@@ -452,38 +452,59 @@ function calcRelation(){
 function genCard(){
   var co=window._co,ar=window._ar;
   if(!co||!ar)return;
-  var W=1080,H=1440,ca=document.createElement('canvas');
-  ca.width=W;ca.height=H;
-  var ctx=ca.getContext('2d');
+  var W=1080,H=1440,ca=document.createElement("canvas");
+  ca.width=W;ca.height=H;var ctx=ca.getContext("2d");
   ctx.fillStyle=co.h;ctx.fillRect(0,0,W,H);
 
-  ctx.fillStyle='rgba(255,255,255,0.08)';
-  [[80,80],[W-140,80],[80,H-82],[W-140,H-82]].forEach(function(p){ctx.fillRect(p[0],p[1],60,2);ctx.fillRect(p[0],p[1]===80?p[1]+60:p[1]-60,2,60);});
+  // 丝绸纹理
+  var grd=ctx.createLinearGradient(0,0,W,H);
+  grd.addColorStop(0,"rgba(255,255,255,0.04)");
+  grd.addColorStop(0.3,"rgba(255,255,255,0.01)");
+  grd.addColorStop(0.6,"rgba(255,255,255,0.02)");
+  grd.addColorStop(1,"rgba(255,255,255,0.04)");
+  ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
 
-  ctx.textAlign='center';
-  ctx.fillStyle='rgba(255,255,255,0.12)';ctx.font='14px sans-serif';ctx.fillText('· 赛 博 占 色 ·',W/2,128);
+  // 亮度判断
+  var lum=(0.299*co.r+0.587*co.g+0.114*co.b)/255;
+  var t1=lum>0.55?"#1a1a1a":"#fff";
+  var t2=lum>0.55?"rgba(0,0,0,0.5)":"rgba(255,255,255,0.5)";
+  var t3=lum>0.55?"rgba(0,0,0,0.22)":"rgba(255,255,255,0.18)";
+  var sh=lum>0.55?"rgba(0,0,0,0.08)":"rgba(0,0,0,0.25)";
+  var sb=lum>0.55?8:20;
 
-  ctx.fillStyle='#fff';ctx.font='bold 96px sans-serif';ctx.shadowColor='rgba(0,0,0,0.3)';ctx.shadowBlur=24;ctx.fillText(co.n,W/2,380);ctx.shadowBlur=0;
-  ctx.fillStyle='rgba(255,255,255,0.85)';ctx.font='28px sans-serif';ctx.fillText(ar.n,W/2,460);
-  ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fillRect(W/2-40,492,80,1);
+  // 四角装饰
+  ctx.fillStyle=t3;
+  [[80,80],[W-140,80],[80,H-82],[W-140,H-82]].forEach(function(p){ctx.fillRect(p[0],p[1],36,1);ctx.fillRect(p[0],p[1]===80?p[1]+36:p[1]-36,1,36);});
 
-  var p=(co.p||'').replace(/^「|」$/g,'');
-  ctx.fillStyle='rgba(255,255,255,0.55)';ctx.font='22px sans-serif';ctx.fillText('「'+(p||'一色一世界')+'」',W/2,560);
+  ctx.textAlign="center";
+  ctx.fillStyle=t3;ctx.font="12px sans-serif";ctx.fillText("· 赛 博 占 色 ·",W/2,118);
 
-  ctx.fillStyle='rgba(255,255,255,0.45)';ctx.font='20px sans-serif';var d=ar.d;
-  for(var i=0;i<d.length;i+=15)ctx.fillText(d.substring(i,Math.min(i+15,d.length)),W/2,640+(i/15)*34);
+  // 色名 108px
+  ctx.fillStyle=t1;ctx.font="bold 108px sans-serif";ctx.shadowColor=sh;ctx.shadowBlur=sb;
+  ctx.fillText(co.n,W/2,370);ctx.shadowBlur=0;
 
-  var info=(window._nm||'')+(window._br?' · '+window._br:'');
-  if(info){ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='18px sans-serif';ctx.fillText(info,W/2,H-260);}
-  ctx.fillStyle='rgba(255,255,255,0.15)';ctx.font='16px sans-serif';ctx.fillText('我在这里测的 👇',W/2,H-190);
-  ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='18px sans-serif';ctx.fillText('taiweixiao.com',W/2,H-150);
-  ctx.fillStyle='rgba(255,255,255,0.1)';ctx.font='12px monospace';ctx.fillText(co.h+'·RGB('+co.r+','+co.g+','+co.b+')',W/2,H-100);
+  // 色格名
+  ctx.fillStyle=t2;ctx.font="26px sans-serif";ctx.fillText(ar.n,W/2,445);
+  ctx.fillStyle=t3;ctx.fillRect(W/2-36,476,72,1);
 
-  var link=document.createElement('a');link.download='赛博占色_'+co.n+'.png';link.href=ca.toDataURL('image/png');link.click();
-}
+  // 诗签
+  var p=(co.p||"").replace(/^「|」$/g,"");
+  ctx.fillStyle=t2;ctx.font="20px sans-serif";
+  ctx.fillText("「"+(p||"一色一世界")+"」",W/2,540);
 
-// ─── 重测 ───
-function resetAll(){
+  // 性格描述
+  ctx.fillStyle=t2;ctx.font="18px sans-serif";var d=ar.d;
+  for(var i=0;i<d.length;i+=15)ctx.fillText(d.substring(i,Math.min(i+15,d.length)),W/2,616+(i/15)*30);
+
+  // 底部
+  var info=(window._nm||"")+(window._br?" · "+window._br:"");
+  if(info){ctx.fillStyle=t3;ctx.font="15px sans-serif";ctx.fillText(info,W/2,H-248);}
+  ctx.fillStyle=t3;ctx.font="13px sans-serif";ctx.fillText("我在这里测的",W/2,H-186);
+  ctx.fillStyle=t2;ctx.font="16px sans-serif";ctx.fillText("taiweixiao.com",W/2,H-148);
+  ctx.fillStyle=t3;ctx.font="10px monospace";ctx.fillText(co.h+" · RGB("+co.r+","+co.g+","+co.b+")",W/2,H-100);
+
+  var link=document.createElement("a");link.download="赛博占色_"+co.n+".png";link.href=ca.toDataURL("image/png");link.click();
+}function resetAll(){
   ans={};
   document.getElementById('q-name').value='';
   document.getElementById('q-birth').value='';
