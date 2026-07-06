@@ -16,7 +16,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 .tab:hover{color:rgba(255,255,255,0.6)}
 
 /* ─── 页面容器 ─── */
-.page{display:none;width:100%;max-width:500px;margin:0 auto;padding:80px 20px 40px}
+.page{display:none;width:100%;max-width:500px;margin:0 auto;padding:80px 20px 40px;position:relative;z-index:1}
 .page.active{display:block;animation:fadeIn 0.5s ease-out both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
@@ -104,6 +104,8 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 </style>
 </head>
 <body>
+
+<div id="bg-layer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:url('assets/11.jpg') center/cover no-repeat;z-index:0;display:none"></div>
 
 <!-- 顶部标签 -->
 <div class="tabs">
@@ -346,8 +348,7 @@ function switchPage(p){
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
-  if(p==='result'){document.body.style.background='url(assets/11.jpg) center/cover fixed no-repeat'}
-  else{document.body.style.background=''}
+  document.getElementById('bg-layer').style.display=p==='result'?'block':'none';
   if(p==='quiz')renderQ();
 }
 
