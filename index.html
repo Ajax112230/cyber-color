@@ -160,9 +160,9 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 
   <div class="xy-section" id="xy-section">
     <div class="xy-title">色缘</div>
-    <div class="xy-sub">输入TA的名字，看看你们的色缘</div>
+    <div class="xy-sub">输入另一个颜色名，看看你们的色缘</div>
     <div class="xy-row">
-      <input id="xy-name" placeholder="TA的名字" maxlength="10">
+      <input id="xy-name" placeholder="颜色名，如 天青、月白" maxlength="10">
       <button onclick="calcRelation()">合</button>
     </div>
     <div class="xy-result" id="xy-result"></div>
@@ -424,21 +424,28 @@ function calcRelation(){
   var n=document.getElementById('xy-name').value.trim();
   if(!n){document.getElementById('xy-result').classList.remove('show');return;}
 
+  // 按颜色名查找
+  var oco;
+  for(var ci=0;ci<C.length;ci++){if(C[ci].n===n){oco=C[ci];break;}}
+  if(!oco){document.getElementById('xy-result').innerHTML='<div style="color:rgba(255,255,255,0.2);font-size:14px;margin-top:8px">未找到该颜色，试试 天青、月白、胭脂...</div>';document.getElementById('xy-result').classList.add('show');return;}
+
+  // 找到该颜色所属的原型
   var ar=window._ar;
-  var h=5381,s=n+'|'+(window._br||'');
-  for(var si=0;si<s.length;si++)h=((h<<5)+h+s.charCodeAt(si))&0x7fffffff;
-  var oi=h%AT.length;
-  var oa=AT[oi];
-  if(oa.k===ar.k){oi=(oi+1)%AT.length;oa=AT[oi];}
+  var oa=null;
+  for(var ai=0;ai<AT.length;ai++){
+    for(var ci=0;ci<AT[ai].c.length;ci++){
+      if(AT[ai].c[ci]===n){oa=AT[ai];break;}
+    }
+    if(oa)break;
+  }
+  if(!oa||oa.k===ar.k){oa=AT[Math.floor(Math.random()*AT.length)];}
+  while(oa.k===ar.k){oa=AT[Math.floor(Math.random()*AT.length)];}
 
   var key=ar.k+'_'+oa.k;
   var rev=oa.k+'_'+ar.k;
-  var r=xyMap[key]||xyMap[rev]||['💫','奇妙的相遇','你们之间有一种说不清的吸引力——可能是天上的星星在排列组合的时候，特意把你们放在了彼此的方向。'];
+  var r=xyMap[key]||xyMap[rev]||['','奇妙的相遇','你们之间有一种说不清的吸引力——可能是天上的星星在排列组合的时候，特意把你们放在了彼此的方向。'];
 
-  var oc=oa.c[h%oa.c.length];
-  var oco;
-  for(var ci=0;ci<C.length;ci++){if(C[ci].n===oc){oco=C[ci];break;}}
-  var oh=oco?oco.h:'#666';
+  var oh=oco.h;
 
   document.getElementById('xy-result').innerHTML=
     '<div class="xy-rel-name">'+r[2]+'</div>'+
