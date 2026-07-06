@@ -6,7 +6,8 @@
 <title>赛博占色 · 你的本命色</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei',sans-serif;min-height:100dvh}
+body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei',sans-serif;min-height:100dvh;transition:background 0.5s}
+body.show-bg{background:url('assets/11.jpg') center/cover fixed no-repeat}
 
 /* ─── 顶部标签 ─── */
 .tabs{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:4px;padding:3px;background:rgba(20,20,20,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:50px;border:1px solid rgba(255,255,255,0.05)}
@@ -52,7 +53,6 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 .sec-btn:hover{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2)}
 
 /* ─── 结果页 ─── */
-#page-result{position:relative}
 #page-result .result-card{box-shadow:0 16px 64px rgba(0,0,0,0.5);margin-bottom:20px}
 #page-result .result-info{background:rgba(10,10,10,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#e8dcc8}
 #page-result .result-info .ri-hex{color:rgba(255,255,255,0.35)}
@@ -63,10 +63,6 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 #page-result .xy-section .xy-rel-desc{color:rgba(255,255,255,0.7)}
 #page-result .xy-section .xy-types{color:rgba(255,255,255,0.35)}
 #page-result .actions button{background:rgba(10,10,10,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-#page-content{position:relative;z-index:1}
-#result-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:-1;pointer-events:none;display:none}
-#page-result.active{min-height:100dvh}
-#page-result.active #result-bg{display:block}
 .result-card{border-radius:24px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,0.5);margin-bottom:24px}
 .result-color{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;transition:background 0.6s}
 .result-color .rc-name{font-size:64px;font-weight:700;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.3);letter-spacing:0.1em}
@@ -140,8 +136,6 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 
 <!-- 结果页（初始隐藏，由 JS 填充） -->
 <div class="page" id="page-result">
-  <img id="result-bg" src="assets/11.jpg" alt="">
-  <div id="page-content">
   <div class="result-card">
     <div class="result-color" id="rc-color" style="background:#333">
       <div class="rc-name" id="rc-name"></div>
@@ -352,6 +346,7 @@ function switchPage(p){
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
+  document.body.classList.toggle('show-bg', p==='result');
   if(p==='quiz')renderQ();
 }
 
