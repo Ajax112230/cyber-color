@@ -58,7 +58,6 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 
 /* ─── 结果页 ─── */
 #page-result .result-card{box-shadow:0 16px 64px rgba(0,0,0,0.5);margin-bottom:20px}
-#page-result .result-info{background:rgba(10,10,10,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#e8dcc8}
 #page-result .result-info .ri-hex{color:rgba(255,255,255,0.35)}
 #page-result .result-info .ri-desc{color:rgba(255,255,255,0.75)}
 #page-result .result-info .ri-tag{color:rgba(201,169,110,0.8)}
@@ -68,7 +67,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 #page-result .xy-section .xy-types{color:rgba(255,255,255,0.35)}
 .xy-row button{padding:11px 24px;border-radius:50px;background:transparent;border:1px solid rgba(212,165,116,0.3);color:#d4a574;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:0.08em;transition:all 0.3s}
 .xy-row button:hover{background:rgba(212,165,116,0.08);border-color:rgba(212,165,116,0.5)}
-.result-card{border-radius:24px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,0.5);margin-bottom:24px}
+.result-card{border-radius:24px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,0.5),0 0 0 1px rgba(212,165,116,0.06),0 0 40px var(--card-glow,rgba(212,165,116,0.04));margin-bottom:24px}
 .result-color{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;transition:background 0.6s;position:relative;overflow:hidden}
 .result-color::before{content:'';position:absolute;inset:0;border-radius:24px 24px 0 0;background:repeating-linear-gradient(15deg,transparent 0,transparent 2px,rgba(255,255,255,0.04) 2px,rgba(255,255,255,0.04) 2.4px),repeating-linear-gradient(-12deg,transparent 0,transparent 4px,rgba(255,255,255,0.02) 4px,rgba(255,255,255,0.02) 4.3px),linear-gradient(140deg,rgba(255,255,255,0.14) 0%,rgba(255,255,255,0.06) 18%,transparent 40%,transparent 75%,rgba(255,255,255,0.03) 100%),radial-gradient(ellipse 45% 35% at 35% 25%,rgba(255,255,255,0.08) 0%,transparent 60%);pointer-events:none;z-index:1}
 .result-color::after{content:'';position:absolute;inset:0;border-radius:24px 24px 0 0;background:repeating-linear-gradient(0deg,transparent 0,transparent 0.6px,rgba(255,255,255,0.012) 0.6px,rgba(255,255,255,0.012) 1px),repeating-linear-gradient(90deg,transparent 0,transparent 0.6px,rgba(255,255,255,0.008) 0.6px,rgba(255,255,255,0.008) 1px);pointer-events:none;z-index:1}
@@ -76,7 +75,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 .result-color .rc-name{font-size:80px;font-weight:700;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.3);letter-spacing:0.12em}
 .result-color .rc-type{font-size:16px;color:#c9a96e;margin-top:10px;letter-spacing:0.1em;text-shadow:0 1px 6px rgba(0,0,0,0.3)}
 .result-color .rc-poem{font-size:14px;color:rgba(255,255,255,0.4);margin-top:14px;font-style:italic}
-.result-info{background:rgba(255,255,255,0.02);padding:20px 24px;border:1px solid rgba(255,255,255,0.05);border-top:none;border-radius:0 0 24px 24px}
+.result-info{background:rgba(10,10,10,0.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:20px 24px;border:1px solid rgba(255,255,255,0.06);border-top:none;border-radius:0 0 24px 24px}
 .result-info .ri-hex{font-size:12px;color:rgba(255,255,255,0.2);font-family:monospace}
 .result-info .ri-desc{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8;margin-top:10px}
 .result-info .ri-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -403,6 +402,7 @@ function calcColor(){
 
   // 渲染结果
   document.getElementById('rc-color').style.background=co.h;
+  document.querySelector('.result-card').style.setProperty('--card-glow','rgba('+co.r+','+co.g+','+co.b+',0.12)');
   document.getElementById('rc-name').textContent=co.n;
   document.getElementById('rc-type').textContent=ar.n;
   var p=(co.p||'').replace(/^「|」$/g,'');
