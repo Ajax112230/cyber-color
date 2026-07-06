@@ -64,7 +64,10 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 #page-result .xy-section .xy-types{color:rgba(255,255,255,0.35)}
 #page-result .actions button{background:rgba(10,10,10,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .result-card{border-radius:24px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,0.5);margin-bottom:24px}
-.result-color{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;transition:background 0.6s}
+.result-color{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;transition:background 0.6s;position:relative;overflow:hidden}
+.result-color::before{content:'';position:absolute;inset:0;border-radius:24px 24px 0 0;background:repeating-linear-gradient(15deg,transparent 0,transparent 2px,rgba(255,255,255,0.04) 2px,rgba(255,255,255,0.04) 2.4px),repeating-linear-gradient(-12deg,transparent 0,transparent 4px,rgba(255,255,255,0.02) 4px,rgba(255,255,255,0.02) 4.3px),linear-gradient(140deg,rgba(255,255,255,0.14) 0%,rgba(255,255,255,0.06) 18%,transparent 40%,transparent 75%,rgba(255,255,255,0.03) 100%),radial-gradient(ellipse 45% 35% at 35% 25%,rgba(255,255,255,0.08) 0%,transparent 60%);pointer-events:none;z-index:1}
+.result-color::after{content:'';position:absolute;inset:0;border-radius:24px 24px 0 0;background:repeating-linear-gradient(0deg,transparent 0,transparent 0.6px,rgba(255,255,255,0.012) 0.6px,rgba(255,255,255,0.012) 1px),repeating-linear-gradient(90deg,transparent 0,transparent 0.6px,rgba(255,255,255,0.008) 0.6px,rgba(255,255,255,0.008) 1px);pointer-events:none;z-index:1}
+.result-color>*{position:relative;z-index:2}
 .result-color .rc-name{font-size:64px;font-weight:700;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.3);letter-spacing:0.1em}
 .result-color .rc-type{font-size:18px;color:rgba(255,255,255,0.85);margin-top:8px;letter-spacing:0.06em;text-shadow:0 1px 6px rgba(0,0,0,0.3)}
 .result-color .rc-poem{font-size:15px;color:rgba(255,255,255,0.6);margin-top:14px;font-style:italic}
