@@ -109,15 +109,15 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 
 <!-- 顶部标签 -->
 <div class="tabs">
-  <button class="tab active" onclick="switchPage('home')">🏠 首页</button>
-  <button class="tab" onclick="switchPage('quiz')">⭐ 赛博占色</button>
+  <button class="tab active" onclick="switchPage('home')">首页</button>
+  <button class="tab" onclick="switchPage('quiz')">赛博占色</button>
 </div>
 
 <!-- 首页 -->
 <div class="page active" id="page-home">
   <h1 class="title">赛 博 占 色</h1>
   <p class="title-sub">五道题 · 找到你的本命色</p>
-  <button class="start-btn" onclick="switchPage('quiz')">✨ 开始占色</button>
+  <button class="start-btn" onclick="switchPage('quiz')">开始占色</button>
 </div>
 
 <!-- 答题页 -->
@@ -131,7 +131,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
   <div id="q-container" style="margin-top:8px"></div>
 
   <div style="margin-top:12px">
-    <button class="primary-btn" id="submit-btn" onclick="calcColor()" disabled>✨ 开启占色</button>
+    <button class="primary-btn" id="submit-btn" onclick="calcColor()" disabled>开启占色</button>
   </div>
   <p style="font-size:11px;color:rgba(255,255,255,0.12);margin-top:10px">五道题答完即可生成</p>
 </div>
@@ -152,7 +152,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
   </div>
 
   <div class="xy-section" id="xy-section">
-    <div class="xy-title">💞 色缘</div>
+    <div class="xy-title">色缘</div>
     <div class="xy-sub">输入TA的名字，看看你们的色缘</div>
     <div class="xy-row">
       <input id="xy-name" placeholder="TA的名字" maxlength="10">
@@ -162,8 +162,8 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
   </div>
 
   <div class="actions">
-    <button class="primary-btn" onclick="genCard()">📸 分享卡片</button>
-    <button class="sec-btn" onclick="resetAll()">🔄 重测</button>
+    <button class="primary-btn" onclick="genCard()">分享卡片</button>
+    <button class="sec-btn" onclick="resetAll()">重测</button>
   </div>
   </div><!-- /page-content -->
 </div>
@@ -433,7 +433,7 @@ function calcRelation(){
   var oh=oco?oco.h:'#666';
 
   document.getElementById('xy-result').innerHTML=
-    '<div class="xy-rel-name">'+r[1]+' '+r[2]+'</div>'+
+    '<div class="xy-rel-name">'+r[2]+'</div>'+
     '<div class="xy-balls"><div class="xy-ball" style="background:'+window._co.h+';box-shadow:0 0 20px rgba('+(window._co.r)+','+(window._co.g)+','+(window._co.b)+',0.3)"></div><div class="xy-ball" style="background:'+oh+';box-shadow:0 0 20px rgba('+(oco?oco.r:100)+','+(oco?oco.g:100)+','+(oco?oco.b:100)+',0.3)"></div></div>'+
     '<div class="xy-types">'+ar.n+' · '+oa.n+'</div>'+
     '<div class="xy-rel-desc">'+r[3]+'</div>';
