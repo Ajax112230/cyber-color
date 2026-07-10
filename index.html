@@ -113,7 +113,8 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 <body>
 
 <div id="bg-layer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:url('assets/11.jpg') center/cover no-repeat;z-index:0;display:none"></div>
-<div id="home-bg-layer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:url('assets/home-bg.png') center/cover no-repeat;z-index:0;display:none"></div>
+
+
 
 <!-- 顶部标签 -->
 <div class="tabs">
@@ -372,7 +373,7 @@ function switchPage(p){
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
   document.getElementById('bg-layer').style.display=p==='result'?'block':'none';
-  document.getElementById('home-bg-layer').style.display=p==='home'?'block':'none';if(window._auroraToggle)_auroraToggle(p==='home');
+  if(window._auroraToggle)_auroraToggle(p==='home');
   if(p==='quiz')renderQ();
 }
 
