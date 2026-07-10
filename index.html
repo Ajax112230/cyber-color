@@ -542,7 +542,7 @@ function genCard(){
 (function(){
   var canvas=document.createElement("canvas");
   canvas.id="aurora-canvas";
-  canvas.style.cssText="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:none";
+  canvas.style.cssText="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none";
   document.body.insertBefore(canvas, document.body.firstChild);
 
   var gl=canvas.getContext("webgl",{alpha:true,premultipliedAlpha:false})||canvas.getContext("experimental-webgl");
