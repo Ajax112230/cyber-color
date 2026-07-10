@@ -21,7 +21,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* ─── 首页 ─── */
-#page-home{display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 40px;margin:0 auto;max-width:500px;text-align:center;background:url('assets/home-bg.png') center/cover no-repeat}
+#page-home{display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 40px;margin:0 auto;max-width:500px;text-align:center}
 #page-home.active{display:flex}
 .title{font-size:56px;letter-spacing:0.15em;color:#c9a96e;font-weight:300;margin-bottom:14px;line-height:1.2}
 .title-sub{font-size:13px;color:rgba(255,255,255,0.2);letter-spacing:0.2em;margin-bottom:56px;font-weight:400}
@@ -113,6 +113,7 @@ body{background:#0a0a0a;color:#e8dcc8;font-family:'PingFang SC','Microsoft YaHei
 <body>
 
 <div id="bg-layer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:url('assets/11.jpg') center/cover no-repeat;z-index:0;display:none"></div>
+<div id="home-bg-layer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:url('assets/home-bg.png') center/cover no-repeat;z-index:0;display:none"></div>
 
 <!-- 顶部标签 -->
 <div class="tabs">
@@ -371,6 +372,7 @@ function switchPage(p){
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
   document.getElementById('bg-layer').style.display=p==='result'?'block':'none';
+  document.getElementById('home-bg-layer').style.display=p==='home'?'block':'none';
   if(p==='quiz')renderQ();
 }
 
