@@ -372,7 +372,7 @@ function switchPage(p){
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(p==='home'&&i===0)||(p!=='home'&&i===1))});
   document.getElementById('bg-layer').style.display=p==='result'?'block':'none';
-  document.getElementById('home-bg-layer').style.display=p==='home'?'block':'none';
+  document.getElementById('home-bg-layer').style.display=p==='home'?'block':'none';if(window._auroraToggle)_auroraToggle(p==='home');
   if(p==='quiz')renderQ();
 }
 
@@ -536,6 +536,64 @@ function genCard(){
   document.getElementById('xy-result').classList.remove('show');
   switchPage('quiz');
 }
+</script>
+<script>
+// SoftAurora effect for home page
+(function(){
+  var canvas=document.createElement("canvas");
+  canvas.id="aurora-canvas";
+  canvas.style.cssText="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:none";
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  var gl=canvas.getContext("webgl",{alpha:true,premultipliedAlpha:false})||canvas.getContext("experimental-webgl");
+  if(!gl)return;
+
+  // Colors
+  function hex2rgb(h){return[parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];}
+  var c1=hex2rgb("#ffffff");
+  var c2=hex2rgb("#c9a96e");
+
+  // Shaders
+  function makeShader(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}
+  var prog=gl.createProgram();
+  gl.attachShader(prog,makeShader(gl.VERTEX_SHADER,"attribute vec2 position;\nattribute vec2 uv;\nvarying vec2 vUv;\nvoid main(){\n  vUv=uv;\n  gl_Position=vec4(position,0,1);\n}"));
+  gl.attachShader(prog,makeShader(gl.FRAGMENT_SHADER,"precision highp float;\nuniform float uTime;\nuniform vec2 uResolution;\nuniform vec3 uColor1;\nuniform vec3 uColor2;\nuniform float uSpeed;\nvarying vec2 vUv;\n\nvec3 hash(vec3 p){\n  p=vec3(dot(p,vec3(127.1,311.7,234.6)),dot(p,vec3(269.5,183.3,198.3)),dot(p,vec3(169.5,283.3,156.9)));\n  return fract(sin(p)*43758.5453123);\n}\n\nfloat noise3D(vec3 p){\n  vec3 i=floor(p);vec3 f=fract(p);\n  f=f*f*(3.0-2.0*f);\n  float n=mix(mix(mix(dot(hash(i+vec3(0,0,0)),f-vec3(0,0,0)),dot(hash(i+vec3(1,0,0)),f-vec3(1,0,0)),f.x),\n    mix(dot(hash(i+vec3(0,1,0)),f-vec3(0,1,0)),dot(hash(i+vec3(1,1,0)),f-vec3(1,1,0)),f.x),f.y),\n    mix(mix(dot(hash(i+vec3(0,0,1)),f-vec3(0,0,1)),dot(hash(i+vec3(1,0,1)),f-vec3(1,0,1)),f.x),\n    mix(dot(hash(i+vec3(0,1,1)),f-vec3(0,1,1)),dot(hash(i+vec3(1,1,1)),f-vec3(1,1,1)),f.x),f.y),f.z);\n  return n*0.5+0.5;\n}\n\nfloat fbm(vec2 p,float t){\n  float v=0.0,a=1.0,f=2.5;\n  for(int i=0;i<3;i++){v+=a*noise3D(vec3(p*f,t*0.2));a*=0.4;f*=2.0;}\n  return v;\n}\n\nvoid main(){\n  vec2 uv=gl_FragCoord.xy/uResolution.y;\n  float t=uTime*uSpeed;\n  vec3 c=vec3(0);\n  float n1=fbm(uv,t);\n  float n2=fbm(uv,t+2.0);\n  float band=uv.y*8.0-4.0;\n  float mask1=exp(-1.5*abs(n1+band*0.5));\n  float mask2=exp(-1.8*abs(n2+band*0.5+1.0));\n  c+=mask1*uColor1;\n  c+=mask2*uColor2;\n  gl_FragColor=vec4(c*0.8,clamp(length(c),0.0,1.0));\n}"));
+  gl.linkProgram(prog);gl.useProgram(prog);
+
+  var verts=new Float32Array([-1,-1,0,0, 3,-1,2,0, -1,3,0,2]);
+  var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,verts,gl.STATIC_DRAW);
+  var posLoc=gl.getAttribLocation(prog,"position");gl.enableVertexAttribArray(posLoc);gl.vertexAttribPointer(posLoc,2,gl.FLOAT,false,16,0);
+  var uvLoc=gl.getAttribLocation(prog,"uv");gl.enableVertexAttribArray(uvLoc);gl.vertexAttribPointer(uvLoc,2,gl.FLOAT,false,16,8);
+
+  var uniforms={};
+  ["uTime","uResolution","uColor1","uColor2","uSpeed"].forEach(function(n){uniforms[n]=gl.getUniformLocation(prog,n);});
+
+  function resize(){
+    var dpr=window.devicePixelRatio||1;
+    canvas.width=window.innerWidth*dpr;
+    canvas.height=window.innerHeight*dpr;
+    gl.viewport(0,0,canvas.width,canvas.height);
+    gl.uniform2f(uniforms.uResolution,canvas.width,canvas.height);
+  }
+  resize();
+  window.addEventListener("resize",resize);
+
+  gl.uniform3f(uniforms.uColor1,c1[0],c1[1],c1[2]);
+  gl.uniform3f(uniforms.uColor2,c2[0],c2[1],c2[2]);
+  gl.uniform1f(uniforms.uSpeed,0.6);
+
+  var startTime=performance.now();
+  function loop(now){
+    requestAnimationFrame(loop);
+    gl.uniform1f(uniforms.uTime,(now-startTime)/1000);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+  }
+  requestAnimationFrame(loop);
+
+  // Expose toggle function
+  window._auroraToggle = function(show) { canvas.style.display=show?"block":"none"; };
+  window._auroraCanvas = canvas;
+})();
 </script>
 </body>
 </html>
